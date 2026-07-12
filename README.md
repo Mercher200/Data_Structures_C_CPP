@@ -1,4 +1,4 @@
-# Основные структуры данных на cpp
+# Реализация основных структур данных на C++ с примерами использования
 
 ## Содержание
 
@@ -22,190 +22,153 @@
 Односвязный список с операциями вставки, удаления, реверса и вывода.
 
 ### Структура
-cpp
-struct Linked_list {
-    Linked_list* next;
-    int data;
-};
-Функции
-Insert(pointer_to_head, x) – вставка в голову.
+    struct Linked_list {
+        Linked_list* next;
+        int data;
+    };
 
-Insert_Into(pointer_to_head, data, position) – вставка по позиции (1‑based).
+### Функции
+- `Insert(pointer_to_head, x)` – вставка в голову.
+- `Insert_Into(pointer_to_head, data, position)` – вставка по позиции (1‑based).
+- `Delete_From(pointer_to_head, position)` – удаление по позиции.
+- `Print(head)` – итеративный вывод.
+- `Print_Recursion(p)` – рекурсивный вывод.
+- `Reverse_L(pointer_to_head)` – реверс итеративный (три указателя).
+- `Reverse_R(pointer_to_head, p)` – реверс рекурсивный.
+- `Reverse_Stack_LinList(pointer_to_head)` – реверс через `std::stack`.
 
-Delete_From(pointer_to_head, position) – удаление по позиции.
+### Особенности
+- Рекурсивный реверс может вызвать переполнение стека при большой длине.
+- Реализация через стек использует стандартную библиотеку.
 
-Print(head) – итеративный вывод.
+---
 
-Print_Recursion(p) – рекурсивный вывод.
+## 2. Двусвязный список — `namespace DoLinList`
 
-Reverse_L(pointer_to_head) – реверс итеративный (три указателя).
-
-Reverse_R(pointer_to_head, p) – реверс рекурсивный.
-
-Reverse_Stack_LinList(pointer_to_head) – реверс через std::stack.
-
-Особенности
-Рекурсивный реверс может вызвать переполнение стека при большой длине.
-
-Реализация через стек использует стандартную библиотеку.
-
-Баг
-Отсутствуют (на данный момент).
-
-2. Двусвязный список — namespace DoLinList
-Описание
+### Описание
 Двусвязный список с возможностью обхода в обе стороны.
 
-Структура
-cpp
-struct Doubly_Linked_list {
-    Doubly_Linked_list* next;
-    Doubly_Linked_list* prev;
-    int data;
-};
-Функции
-Get_New_D_Lin_List(...) – создание нового узла.
+### Структура
+    struct Doubly_Linked_list {
+        Doubly_Linked_list* next;
+        Doubly_Linked_list* prev;
+        int data;
+    };
 
-Insert_At_Head(pointer_to_head, pointer_to_prev, x) – вставка в начало.
+### Функции
+- `Get_New_D_Lin_List(...)` – создание нового узла.
+- `Insert_At_Head(pointer_to_head, pointer_to_prev, x)` – вставка в начало.
+- `Print(head, prev)` – прямой вывод.
+- `Reverse_Print(head, prev)` – обратный вывод (движение по `prev`).
 
-Print(head, prev) – прямой вывод.
+### Особенности
+Указатель `prev` передаётся, но фактически не используется (кроме как аргумент). Можно убрать.
 
-Reverse_Print(head, prev) – обратный вывод (движение по prev).
+---
 
-Особенности
-Указатель prev передаётся, но фактически не используется (кроме как аргумент). Можно убрать.
+## 3. Стек — `namespace Stack`
 
-Баг
-В Reverse_Print создаётся неинициализированный temp, затем используется temp->next – неопределённое поведение. Нужно идти по head до конца, затем по prev.
-
-3. Стек — namespace Stack
-Описание
+### Описание
 Две реализации стека: на статическом массиве и на связном списке. Дополнительно – реверс строки.
 
-3.1. На массиве
-Структура
-cpp
-int stack_a[MAX_SIZE]; // MAX_SIZE = 101
-int stack_top = -1;
-Функции
-push(x) – добавление (с проверкой переполнения).
+### 3.1. На массиве
 
-pop() – удаление (с проверкой пустоты).
+#### Структура
+    int stack_a[MAX_SIZE]; // MAX_SIZE = 101
+    int stack_top = -1;
 
-top() – чтение верхнего элемента.
+#### Функции
+- `push(x)` – добавление (с проверкой переполнения).
+- `pop()` – удаление (с проверкой пустоты).
+- `top()` – чтение верхнего элемента.
+- `print()` – вывод всех элементов.
 
-print() – вывод всех элементов.
-
-Особенности
+#### Особенности
 Фиксированный размер – 101 элемент.
 
-Баг
-В print() цикл выводит только последний элемент (индекс stack_top не меняется). Должно быть stack_a[i].
+### 3.2. На связном списке
 
-3.2. На связном списке
-Структура
-cpp
-struct StackLinLIst {
-    int data;
-    StackLinLIst* link;
-};
-StackLinLIst* stackLinLIst_top = NULL;
-Функции
-push_sll(x) – добавление в голову.
+#### Структура
+    struct StackLinLIst {
+        int data;
+        StackLinLIst* link;
+    };
+    StackLinLIst* stackLinLIst_top = NULL;
 
-pop_sll() – удаление головы (без проверок).
+#### Функции
+- `push_sll(x)` – добавление в голову.
+- `pop_sll()` – удаление головы (без проверок).
 
-Особенности
-Глобальный указатель на вершину. Операции без проверок – при пустом стеке pop_sll просто выходит.
+#### Особенности
+Глобальный указатель на вершину. Операции без проверок – при пустом стеке `pop_sll` просто выходит.
 
-Баг
-Отсутствуют.
+### 3.3. Реверс строки
 
-3.3. Реверс строки
-Функция
-reverse(char* c, int n) – реверс через std::stack<char>.
+#### Функция
+- `reverse(char* c, int n)` – реверс через `std::stack<char>`.
 
-4. Очередь — namespace Queue
-Описание
+---
+
+## 4. Очередь — `namespace Queue`
+
+### Описание
 Очередь на связном списке (FIFO).
 
-Структура
-cpp
-struct queue {
-    int data;
-    queue* next;
-};
-queue* front = NULL;
-queue* rear = NULL;
-Функции
-enqueue(x) – добавление в хвост.
+### Структура
+    struct queue {
+        int data;
+        queue* next;
+    };
+    queue* front = NULL;
+    queue* rear = NULL;
 
-dequeue() – удаление из головы.
+### Функции
+- `enqueue(x)` – добавление в хвост.
+- `dequeue()` – удаление из головы.
+- `print()` – вывод всех элементов.
 
-print() – вывод всех элементов.
+### Особенности
+Глобальные указатели `front` и `rear`.
 
-Особенности
-Глобальные указатели front и rear.
+---
 
-Баг (критический)
-В enqueue при пустой очереди:
+## 5. Двоичное дерево поиска — `namespace Tree`
 
-cpp
-if(front == NULL && rear == NULL){
-    front = rear = NULL;
-    return;
-}
-Должно быть front = rear = temp;. Из-за этого первая вставка игнорируется, очередь остаётся пустой.
-
-5. Двоичное дерево поиска — namespace Tree
-Описание
+### Описание
 Бинарное дерево с упорядочением (левый < корень ≤ правый). Реализованы основные операции и проверки.
 
-Структура
-cpp
-struct tree {
-    int data;
-    tree* left;
-    tree* right;
-};
-Функции
-Основные
-get_new_node(data) – создание узла.
+### Структура
+    struct tree {
+        int data;
+        tree* left;
+        tree* right;
+    };
 
-insert(root, data) – рекурсивная вставка.
+### Функции
 
-search(root, data) – рекурсивный поиск.
+#### Основные
+- `get_new_node(data)` – создание узла.
+- `insert(root, data)` – рекурсивная вставка.
+- `search(root, data)` – рекурсивный поиск.
 
-Минимум / максимум
-find_min(root) – итеративный обход по левым ссылкам.
+#### Минимум / максимум
+- `find_min(root)` – итеративный обход по левым ссылкам.
+- `find_max(root)` – итеративный обход по правым ссылкам.
 
-find_max(root) – итеративный обход по правым ссылкам.
+#### Высота
+- `findheight(root)` – рекурсивно `max(left, right) + 1`.
 
-Высота
-findheight(root) – рекурсивно max(left, right) + 1.
+#### Обходы
+- `levelorder(root)` – через `std::queue<tree*>` (BFS).
+- `preorder(root)` – корень → левый → правый.
+- `inorder(root)` – левый → корень → правый.
+- `postorder(root)` – левый → правый → корень.
 
-Обходы
-levelorder(root) – через std::queue<tree*> (BFS).
+#### Проверка BST
+- `is_binary_search_tree_v_1(root)` – для каждого узла проверяет, что все элементы в левом поддереве ≤ корня, в правом > корня (рекурсивно).
+- `is_binary_search_tree_v_2(root)` – через `IsBstUtil(root, min, max)` с диапазонами.
 
-preorder(root) – корень → левый → правый.
-
-inorder(root) – левый → корень → правый.
-
-postorder(root) – левый → правый → корень.
-
-Проверка BST
-is_binary_search_tree_v_1(root) – для каждого узла проверяет, что все элементы в левом поддереве ≤ корня, в правом > корня (рекурсивно).
-
-is_binary_search_tree_v_2(root) – через IsBstUtil(root, min, max) с диапазонами.
-
-Особенности
+### Особенности
 Вторая версия проверки более эффективна (O(n) без повторных обходов).
 
-Баги
-IsBstUtil – условие:
-
-cpp
-if( root->data < min && root->data > max && ... )
-Должно быть > min && < max. Из-за этого функция всегда возвращает false (кроме пустого дерева).
-
-postorder – внутри вызывается inorder для поддеревьев, а не postorder.
+---
