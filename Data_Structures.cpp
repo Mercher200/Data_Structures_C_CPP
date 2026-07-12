@@ -391,7 +391,7 @@ namespace Tree {
 
    bool IsBstUtil (tree* root, int min, int max){
       if(root == NULL) return true;
-      if( root->data < min && root->data > max && IsBstUtil(root->left, min, root->data) && IsBstUtil(root->right, root->data, max)) return true;
+      if( root->data > min && root->data < max && IsBstUtil(root->left, min, root->data) && IsBstUtil(root->right, root->data, max)) return true;
     else return false;
    } 
 
