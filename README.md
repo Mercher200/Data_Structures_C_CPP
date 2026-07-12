@@ -6,7 +6,6 @@
 3. Stack — `namespace Stack`
    3.1. Array‑based
    3.2. Linked‑list‑based
-   3.3. String reversal
 4. Queue — `namespace Queue`
 5. Binary Search Tree — `namespace Tree`
 
